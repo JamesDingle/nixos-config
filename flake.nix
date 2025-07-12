@@ -14,35 +14,43 @@
     # nixos-hardware.url = "github:NixOS/nixos-hardware";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... } @ inputs: {
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      ...
+    }@inputs:
+    {
 
-    nixosConfigurations = {
-      tiamat = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux"; # Or aarch64-linux, etc.
-        modules = [
-          # main system configuration for this host
-          ./hosts/tiamat/configuration.nix
+      nixosConfigurations = {
+        tiamat = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux"; # Or aarch64-linux, etc.
+          modules = [
+            # main system configuration for this host
+            ./hosts/tiamat/configuration.nix
 
-          # Optional: Import nixos-hardware specific to your machine
-          # inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-carbon-gen9 # Example
+            # Optional: Import nixos-hardware specific to your machine
+            # inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-carbon-gen9 # Example
 
-          # Home Manager configuration for this host's user(s)
-          home-manager.nixosModules.home-manager {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.jad = import ./home/users/jad.nix;
-          }
-        ];
+            # Home Manager configuration for this host's user(s)
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.jad = import ./home/users/jad.nix;
+            }
+          ];
+        };
+      };
+
+      homeConfigurations = {
+        "jad@tiamat" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Or aarch64-linux
+          modules = [
+            ./home/users/jad.nix
+          ];
+        };
       };
     };
-
-    homeConfigurations = {
-      "jad@tiamat" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Or aarch64-linux
-        modules = [
-          ./home/users/jad.nix
-        ];
-      };
-    };
-  };
 }

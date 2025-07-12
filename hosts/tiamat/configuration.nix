@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   imports = [
@@ -35,6 +40,11 @@
 
   networking.hostName = "tiamat";
 
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+
   # Set your bootloader
   boot.loader.grub.enable = true;
   boot.loader.grub.device = "/dev/nvme0n1";
@@ -68,7 +78,6 @@
   };
   # Configure console keymap
   console.keyMap = "uk";
-
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
