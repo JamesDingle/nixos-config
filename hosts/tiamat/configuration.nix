@@ -1,4 +1,3 @@
-# ~/nixos-config/hosts/tiamat/configuration.nix
 { config, pkgs, lib, ... }:
 
 {
@@ -79,6 +78,7 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  programs.ssh.startAgent = true;
 
   # Auto garbage collect
   nix.gc.automatic = true;
