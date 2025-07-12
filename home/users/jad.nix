@@ -1,4 +1,3 @@
-# ~/nixos-config/home/users/jad.nix
 { config, pkgs, ... }:
 
 {
@@ -27,7 +26,6 @@
   programs.git = {
     enable = true;
     userName = "James Dingle";
-    userEmail = "your.email@example.com";
   };
 
   # Example: Configure vim/neovim
